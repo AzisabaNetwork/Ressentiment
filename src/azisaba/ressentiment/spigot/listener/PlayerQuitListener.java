@@ -24,7 +24,7 @@ public class PlayerQuitListener implements Listener {
     public void on(PlayerQuitEvent event) {
         ByteArrayDataOutput out = ByteIOStreams.newDataOutput();
         out.writeUTF(event.getPlayer().getName());
-        int delayTicks = PlayerQuitEvent.getHandlerList().getRegisteredListeners().length;
+        int delayTicks = PlayerQuitEvent.getHandlerList().getRegisteredListeners().length - 1;
         plugin.getServer().getScheduler().runTaskLater(plugin, () -> publisher.sendRedisMessage(Channels.CONTROL, out), delayTicks);
     }
 
