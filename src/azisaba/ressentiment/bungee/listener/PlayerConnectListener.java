@@ -16,14 +16,14 @@ import net.md_5.bungee.netty.HandlerBoss;
 
 import java.util.*;
 
-public class PlayerConnectionListener implements Listener {
+public class PlayerConnectListener implements Listener {
 
     private final Ressentiment plugin;
     private final List<String> playersSwitchingServers = new ArrayList<>();
     private final Set<String> targetServersName;
     private final Map<String, Runnable> callbacks;
 
-    public PlayerConnectionListener(Ressentiment plugin, RegisterMessageSubscriber rms, ControlMessageSubscriber cms) {
+    public PlayerConnectListener(Ressentiment plugin, RegisterMessageSubscriber rms, ControlMessageSubscriber cms) {
         this.plugin = plugin;
         this.targetServersName = rms.serverNameRegistry;
         this.callbacks = cms.callbacks;

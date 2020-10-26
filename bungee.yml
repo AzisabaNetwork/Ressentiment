@@ -1,0 +1,5 @@
+name: Ressentiment
+main: azisaba.ressentiment.bungee.Ressentiment
+version: 1.0.0
+depends: [RedisPluginMessages]
+author: '@amata1219'
