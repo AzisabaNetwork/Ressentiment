@@ -1,5 +1,6 @@
 package azisaba.ressentiment.bungee.listener;
 
+import static azisaba.ressentiment.Output.printf;
 import azisaba.ressentiment.bungee.control.AdjustedDownstreamBridge;
 import azisaba.ressentiment.bungee.Ressentiment;
 import azisaba.ressentiment.bungee.subscriber.ControlMessageSubscriber;
@@ -33,15 +34,21 @@ public class PlayerConnectListener implements Listener {
     public void onSwitch(ServerConnectEvent event) {
         ProxiedPlayer player = event.getPlayer();
 
+        printf("onSwitch: player connecting");
+
         ServerConnection server = (ServerConnection) player.getServer();
         if (server == null) return;
 
+        printf("onSwitch: player switching servers");
+
         ServerInfo targetServer = event.getTarget();
+        printf("onSwitch: is target server", "server-name", targetServer.getName());
         if (!targetServersName.contains(targetServer.getName())) return;
 
         String playerName = player.getName();
         if (playersSwitchingServers.contains(playerName)) {
             playersSwitchingServers.remove(playerName);
+            printf("onSwitch: reconnect");
             return;
         }
 
@@ -50,11 +57,14 @@ public class PlayerConnectListener implements Listener {
         );
         server.disconnect();
 
+        printf("onSwitch: disconnected");
+
         event.setCancelled(true);
 
         callbacks.put(playerName, () -> {
            playersSwitchingServers.add(playerName);
            player.connect(targetServer);
+           printf("onSwitch: callback: connect");
         });
     }
 

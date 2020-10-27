@@ -6,6 +6,7 @@ public class Channels {
     private static final String SEPARATOR = ":";
     private static final String PREFIX = NAME + SEPARATOR;
 
+    public static final String INIT = PREFIX + "init";
     public static final String REGISTER = PREFIX + "register";
     public static final String CONTROL = PREFIX + "control";
 
