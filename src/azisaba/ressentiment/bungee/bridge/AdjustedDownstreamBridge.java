@@ -1,4 +1,4 @@
-package azisaba.ressentiment.bungee.control;
+package azisaba.ressentiment.bungee.bridge;
 
 import net.md_5.bungee.ServerConnection;
 import net.md_5.bungee.UserConnection;

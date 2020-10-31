@@ -1,7 +1,7 @@
 package azisaba.ressentiment.bungee.listener;
 
 import static azisaba.ressentiment.Output.printf;
-import azisaba.ressentiment.bungee.control.AdjustedDownstreamBridge;
+import azisaba.ressentiment.bungee.bridge.AdjustedDownstreamBridge;
 import azisaba.ressentiment.bungee.Ressentiment;
 import azisaba.ressentiment.bungee.subscriber.ControlMessageSubscriber;
 import azisaba.ressentiment.bungee.subscriber.RegisterMessageSubscriber;
@@ -21,12 +21,12 @@ public class PlayerConnectListener implements Listener {
 
     private final Ressentiment plugin;
     private final List<String> playersSwitchingServers = new ArrayList<>();
-    private final Set<String> targetServersName;
+    private final Set<String> targetServersNames;
     private final Map<String, Runnable> callbacks;
 
     public PlayerConnectListener(Ressentiment plugin, RegisterMessageSubscriber rms, ControlMessageSubscriber cms) {
         this.plugin = plugin;
-        this.targetServersName = rms.serverNameRegistry;
+        this.targetServersNames = rms.serverNameRegistry;
         this.callbacks = cms.callbacks;
     }
 
@@ -42,8 +42,11 @@ public class PlayerConnectListener implements Listener {
         printf("onSwitch: player switching servers");
 
         ServerInfo targetServer = event.getTarget();
-        printf("onSwitch: is target server", "server-name", targetServer.getName());
-        if (!targetServersName.contains(targetServer.getName())) return;
+        printf("onSwitch: isTargetServer()", "server-name", targetServer.getName());
+        printf("onSwitch: detail", "size", targetServersNames.size(), "targets", String.join(",", targetServersNames));
+        if (!targetServersNames.contains(targetServer.getName())) return;
+
+        printf("onSwitch: target", "server-name", targetServer.getName());
 
         String playerName = player.getName();
         if (playersSwitchingServers.contains(playerName)) {

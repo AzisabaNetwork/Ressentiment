@@ -1,7 +1,7 @@
 package azisaba.ressentiment.bungee;
 
 import amata1219.redis.plugin.messages.common.RedisPluginMessagesAPI;
-import amata1219.redis.plugin.messages.common.io.ByteIOStreams;
+import amata1219.redis.plugin.messages.common.io.ByteIO;
 import azisaba.ressentiment.Channels;
 import azisaba.ressentiment.Output;
 import azisaba.ressentiment.bungee.listener.PlayerConnectListener;
@@ -29,7 +29,7 @@ public class Ressentiment extends Plugin {
         redis.registerSubscriber(Channels.CONTROL, cms);
 
         redis.registerOutgoingChannels(Channels.INIT);
-        redis.publisher().sendRedisMessage(Channels.INIT, ByteIOStreams.newDataOutput());
+        redis.publisher().sendRedisMessage(Channels.INIT, ByteIO.newDataOutput());
 
         pluginManager.registerListener(this, new PlayerConnectListener(this, rms, cms));
 

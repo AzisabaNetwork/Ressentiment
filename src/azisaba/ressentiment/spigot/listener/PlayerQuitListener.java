@@ -1,7 +1,7 @@
 package azisaba.ressentiment.spigot.listener;
 
 import amata1219.redis.plugin.messages.common.RedisPublisher;
-import amata1219.redis.plugin.messages.common.io.ByteIOStreams;
+import amata1219.redis.plugin.messages.common.io.ByteIO;
 import azisaba.ressentiment.Channels;
 import azisaba.ressentiment.Output;
 import azisaba.ressentiment.spigot.Ressentiment;
@@ -23,9 +23,10 @@ public class PlayerQuitListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void on(PlayerQuitEvent event) {
-        ByteArrayDataOutput out = ByteIOStreams.newDataOutput();
+        ByteArrayDataOutput out = ByteIO.newDataOutput();
         out.writeUTF(event.getPlayer().getName());
-        int delayTicks = PlayerQuitEvent.getHandlerList().getRegisteredListeners().length - 1;
+        int delayTicks = 50; //= 2.5s
+        //int delayTicks = PlayerQuitEvent.getHandlerList().getRegisteredListeners().length - 1;
 
         Output.printf("onQuit: running task later", "player-name", event.getPlayer().getName(), "delayTicks", delayTicks);
 

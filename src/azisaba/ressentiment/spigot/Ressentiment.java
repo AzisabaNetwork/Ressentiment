@@ -2,11 +2,11 @@ package azisaba.ressentiment.spigot;
 
 import amata1219.redis.plugin.messages.common.RedisPluginMessagesAPI;
 import amata1219.redis.plugin.messages.common.RedisPublisher;
-import amata1219.redis.plugin.messages.common.io.ByteIOStreams;
+import amata1219.redis.plugin.messages.common.io.ByteIO;
 import azisaba.ressentiment.Channels;
 import azisaba.ressentiment.Output;
 import azisaba.ressentiment.spigot.listener.PlayerQuitListener;
-import azisaba.ressentiment.spigot.subscriber.InitMessageSubscriber;
+import azisaba.ressentiment.spigot.subscriber.InitialMessageSubscriber;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
@@ -22,13 +22,14 @@ public class Ressentiment extends JavaPlugin {
         RedisPublisher publisher = redis.publisher();
 
         redis.registerIncomingChannels(Channels.INIT);
-        redis.registerSubscriber(Channels.INIT, new InitMessageSubscriber(publisher));
+        redis.registerSubscriber(Channels.INIT, new InitialMessageSubscriber(publisher));
 
         redis.registerOutgoingChannels(
                 Channels.REGISTER,
                 Channels.CONTROL
         );
-        publisher.sendRedisMessage(Channels.REGISTER, ByteIOStreams.newDataOutput());
+
+        publisher.sendRedisMessage(Channels.REGISTER, ByteIO.newDataOutput());
 
         registerListeners(new PlayerQuitListener(this, publisher));
 
