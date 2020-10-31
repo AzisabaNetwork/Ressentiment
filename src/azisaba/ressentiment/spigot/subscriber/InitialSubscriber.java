@@ -7,11 +7,11 @@ import azisaba.ressentiment.Channels;
 import azisaba.ressentiment.Output;
 import com.google.common.io.ByteArrayDataInput;
 
-public class InitialMessageSubscriber implements RedisSubscriber {
+public class InitialSubscriber implements RedisSubscriber {
 
     private final RedisPublisher publisher;
 
-    public InitialMessageSubscriber(RedisPublisher publisher) {
+    public InitialSubscriber(RedisPublisher publisher) {
         this.publisher = publisher;
     }
 

@@ -7,7 +7,7 @@ import com.google.common.io.ByteArrayDataInput;
 import java.util.HashSet;
 import java.util.Set;
 
-public class RegisterMessageSubscriber implements RedisSubscriber {
+public class RegisterSubscriber implements RedisSubscriber {
 
     public final Set<String> serverNameRegistry = new HashSet<>();
 

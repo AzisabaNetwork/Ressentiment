@@ -7,7 +7,7 @@ import com.google.common.io.ByteArrayDataInput;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ControlMessageSubscriber implements RedisSubscriber {
+public class ControlSubscriber implements RedisSubscriber {
 
     public final Map<String, Runnable> callbacks = new HashMap<>();
 
