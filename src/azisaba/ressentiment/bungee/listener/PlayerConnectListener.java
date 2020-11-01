@@ -1,6 +1,5 @@
 package azisaba.ressentiment.bungee.listener;
 
-import static azisaba.ressentiment.Output.printf;
 import azisaba.ressentiment.bungee.bridge.AdjustedDownstreamBridge;
 import azisaba.ressentiment.bungee.Ressentiment;
 import azisaba.ressentiment.bungee.subscriber.ControlSubscriber;
@@ -33,30 +32,18 @@ public class PlayerConnectListener implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public void onSwitch(ServerConnectEvent event) {
         ProxiedPlayer player = event.getPlayer();
-
-        printf("onSwitch: player connecting");
-
+        String playerName = player.getName();
         ServerConnection server = (ServerConnection) player.getServer();
-        if (server == null) return;
-
-        printf("onSwitch: player switching servers");
-
-        ServerInfo targetServer = event.getTarget();
-        printf("onSwitch: isTargetServer()", "server-name", targetServer.getName());
-        printf("onSwitch: detail", "size", targetServersNames.size(), "targets", String.join(",", targetServersNames));
-        if (!targetServersNames.contains(targetServer.getName())) return;
-
-        if (server.getInfo().getName().equals(targetServer.getName())) {
-            printf("same server", "from", server.getInfo().getName(), "to", targetServer.getName());
+        if (server == null) {
+            playersSwitchingServers.remove(playerName);
             return;
         }
 
-        printf("onSwitch: target", "server-name", targetServer.getName());
+        ServerInfo targetServer = event.getTarget();
+        if (!targetServersNames.contains(targetServer.getName()) || server.getInfo().getName().equals(targetServer.getName())) return;
 
-        String playerName = player.getName();
         if (playersSwitchingServers.contains(playerName)) {
             playersSwitchingServers.remove(playerName);
-            printf("onSwitch: reconnect");
             return;
         }
 
@@ -65,14 +52,11 @@ public class PlayerConnectListener implements Listener {
         );
         server.disconnect();
 
-        printf("onSwitch: disconnected");
-
         event.setCancelled(true);
 
         callbacks.put(playerName, () -> {
            playersSwitchingServers.add(playerName);
            player.connect(targetServer);
-           printf("onSwitch: callback: connect");
         });
     }
 

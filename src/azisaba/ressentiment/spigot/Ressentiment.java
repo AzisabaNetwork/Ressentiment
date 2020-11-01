@@ -4,9 +4,8 @@ import amata1219.redis.plugin.messages.common.RedisPluginMessagesAPI;
 import amata1219.redis.plugin.messages.common.RedisPublisher;
 import amata1219.redis.plugin.messages.common.io.ByteIO;
 import azisaba.ressentiment.Channels;
-import azisaba.ressentiment.Output;
 import azisaba.ressentiment.spigot.listener.PlayerQuitListener;
-import azisaba.ressentiment.spigot.subscriber.InitialSubscriber;
+import azisaba.ressentiment.spigot.subscriber.InitSubscriber;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
@@ -22,7 +21,7 @@ public class Ressentiment extends JavaPlugin {
         RedisPublisher publisher = redis.publisher();
 
         redis.registerIncomingChannels(Channels.INIT);
-        redis.registerSubscriber(Channels.INIT, new InitialSubscriber(publisher));
+        redis.registerSubscriber(Channels.INIT, new InitSubscriber(publisher));
 
         redis.registerOutgoingChannels(
                 Channels.REGISTER,
@@ -32,8 +31,6 @@ public class Ressentiment extends JavaPlugin {
         publisher.sendRedisMessage(Channels.REGISTER, ByteIO.newDataOutput());
 
         registerListeners(new PlayerQuitListener(this, publisher));
-
-        Output.printf("onEnable: successful enable");
     }
 
     @Override
